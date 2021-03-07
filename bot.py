@@ -4,7 +4,7 @@
 import discord
 import os
 
-# 毎回、discord.Client()を書くのがめんどくさいので、clientの変数に入れている
+# 毎回、discord.Client()を書くと毎回リセットされてしまうので、clientの変数に入れている
 # discord.Client()について
 # https://discordpy.readthedocs.io/ja/latest/api.html?highlight=client#discord.Client
 client = discord.Client()
