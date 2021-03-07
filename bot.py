@@ -31,5 +31,18 @@ async def on_message(message):
         # https://discordpy.readthedocs.io/ja/latest/api.html?highlight=send#discord.abc.Messageable.send
         await message.channel.send("Hello World")  # 何らかしらのメッセージが送られたチャンネルに"Hello World"を送信する
 
+    elif message.content.startswith("det# count"):
+        count = message.content[10:]
+        try:
+            count = int(count)
+        else:
+            await message.channel.send("det# conut <秒数[int]>")
+
+        edit = await message.channel.send(f"10\n■■■■■■■■■■")
+        for i in range(count):
+            num = count - i
+            await edit.edit(content=f"{num}\n{'■'*num}")
+            await asyncio.sleep(0.9)
+        await edit.edit(content="終了")
 # 環境変数からTOKENと一致する名前の項目を読み込んでいる。
 client.run(os.environ["TOKEN"])
