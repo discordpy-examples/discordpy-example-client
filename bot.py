@@ -31,5 +31,13 @@ async def on_message(message):
         # https://discordpy.readthedocs.io/ja/latest/api.html?highlight=send#discord.abc.Messageable.send
         await message.channel.send("Hello World")  # 何らかしらのメッセージが送られたチャンネルに"Hello World"を送信する
 
+    # if message.content == "det# echo":
+    if message.content in "det# echo":  # ==ではなくinにする
+        # .split(' ')[2:]について
+        # https://note.nkmk.me/python-split-rsplit-splitlines-re/
+        # 半角スペースで区切った2つ目の項目以降全ての文字列を返している
+        # print(message.content.split(' ')[2:])
+        await message.channel.send(f"{message.content.split(' ')[2:]}")
+
 # 環境変数からTOKENと一致する名前の項目を読み込んでいる。
 client.run(os.environ["TOKEN"])
