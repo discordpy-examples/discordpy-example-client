@@ -3,6 +3,7 @@
 # https://note.nkmk.me/python-import-usage/
 import discord
 import os
+import asyncio
 
 # 毎回、discord.Client()を書くと毎回リセットされてしまうので、clientの変数に入れている
 # discord.Client()について
@@ -32,17 +33,20 @@ async def on_message(message):
         await message.channel.send("Hello World")  # 何らかしらのメッセージが送られたチャンネルに"Hello World"を送信する
 
     elif message.content.startswith("det# count"):
-        count = message.content[10:]
-        try:
-            count = int(count)
-        else:
-            await message.channel.send("det# conut <秒数[int]>")
+        count = message.content.split(" ")[2:]
 
-        edit = await message.channel.send(f"10\n■■■■■■■■■■")
-        for i in range(count):
-            num = count - i
-            await edit.edit(content=f"{num}\n{'■'*num}")
-            await asyncio.sleep(0.9)
-        await edit.edit(content="終了")
+        if not count[0].isdigit() is True:
+            await message.channel.send("`det# count 10`のように入力してください。")
+            return
+
+        msg = await message.channel.send(f"残り{count[0]}秒\n{'■'*int(count[0])}")
+        for i in range(int(count[0])):
+            num = int(count[0]) - i
+            await msg.edit(content=f"残り{num}秒\n{'■'*int(num)}")
+            await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
+        await msg.delete()
+        await message.channel.send(f"{message.author.mention}-> 終了しました。")
+
 # 環境変数からTOKENと一致する名前の項目を読み込んでいる。
 client.run(os.environ["TOKEN"])
